@@ -1,0 +1,17 @@
+.qmake.stash
+Makefile
+*.o
+libv_repExtQhull.1.0.0.dylib
+libv_repExtQhull.1.0.dylib
+libv_repExtQhull.1.dylib
+libv_repExtQhull.dylib
+libv_repExtQhull.so
+libv_repExtQhull.so.1
+libv_repExtQhull.so.1.0
+libv_repExtQhull.so.1.0.0
+Makefile.Debug
+Makefile.Release
+object_script.*.Debug
+object_script.*.Release
+debug/
+release/
