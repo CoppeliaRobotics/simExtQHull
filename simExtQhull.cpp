@@ -1,5 +1,5 @@
-#include "v_repExtQhull.h"
-#include "v_repLib.h"
+#include "simExtQhull.h"
+#include "simLib.h"
 #include "scriptFunctionData.h"
 #include <map>
 #include "3Vector.h"
@@ -29,7 +29,7 @@ extern "C" {
 #define CONCAT(x,y,z) x y z
 #define strConCat(x,y,z)    CONCAT(x,y,z)
 
-LIBRARY vrepLib;
+LIBRARY simLib;
 
 bool compute(const float* verticesIn,int verticesInLength,bool generateIndices,std::vector<float>& verticesOut,std::vector<int>& indicesOut)
 {
@@ -157,7 +157,7 @@ void LUA_COMPUTE_CALLBACK(SScriptCallBack* p)
 }
 // --------------------------------------------------------------------------------------
 
-VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer,int reservedInt)
+SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
 {
     // 1. Figure out this plugin's directory:
     char curDirAndFile[1024];
@@ -174,38 +174,38 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer,int reservedInt)
 
     std::string currentDirAndPath(curDirAndFile);
 
-    // 2. Append the V-REP library's name:
+    // 2. Append the CoppeliaSim library's name:
     std::string temp(currentDirAndPath);
 #ifdef _WIN32
-    temp+="\\v_rep.dll";
+    temp+="\\coppeliaSim.dll";
 #elif defined (__linux)
-    temp+="/libv_rep.so";
+    temp+="/libcoppeliaSim.so";
 #elif defined (__APPLE__)
-    temp+="/libv_rep.dylib";
+    temp+="/libcoppeliaSim.dylib";
 #endif 
 
-    // 3. Load the V-REP library:
-    vrepLib=loadVrepLibrary(temp.c_str());
-    if (vrepLib==NULL)
+    // 3. Load the CoppeliaSim library:
+    simLib=loadSimLibrary(temp.c_str());
+    if (simLib==NULL)
     {
-        std::cout << "Error, could not find or correctly load the V-REP library. Cannot start 'Qhull' plugin.\n";
+        std::cout << "Error, could not find or correctly load the CoppeliaSim library. Cannot start 'Qhull' plugin.\n";
         return(0); 
     }
-    if (getVrepProcAddresses(vrepLib)==0)
+    if (getSimProcAddresses(simLib)==0)
     {
-        std::cout << "Error, could not find all required functions in the V-REP library. Cannot start 'Qhull' plugin.\n";
-        unloadVrepLibrary(vrepLib);
+        std::cout << "Error, could not find all required functions in the CoppeliaSim library. Cannot start 'Qhull' plugin.\n";
+        unloadSimLibrary(simLib);
         return(0);
     }
 
-    // Check the version of V-REP:
-    int vrepVer,vrepRev;
-    simGetIntegerParameter(sim_intparam_program_version,&vrepVer);
-    simGetIntegerParameter(sim_intparam_program_revision,&vrepRev);
-    if( (vrepVer<30400) || ((vrepVer==30400)&&(vrepRev<9)) )
+    // Check the version of CoppeliaSim:
+    int simVer,simRev;
+    simGetIntegerParameter(sim_intparam_program_version,&simVer);
+    simGetIntegerParameter(sim_intparam_program_revision,&simRev);
+    if( (simVer<30400) || ((simVer==30400)&&(simRev<9)) )
     {
-        std::cout << "Sorry, your V-REP copy is somewhat old, V-REP 3.4.0 rev9 or higher is required. Cannot start 'Qhull' plugin.\n";
-        unloadVrepLibrary(vrepLib);
+        std::cout << "Sorry, your CoppeliaSim copy is somewhat old, CoppeliaSim 3.4.0 rev9 or higher is required. Cannot start 'Qhull' plugin.\n";
+        unloadSimLibrary(simLib);
         return(0);
     }
 
@@ -221,19 +221,19 @@ VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer,int reservedInt)
     return(PLUGIN_VERSION);
 }
 
-VREP_DLLEXPORT void v_repEnd()
+SIM_DLLEXPORT void simEnd()
 {
-    unloadVrepLibrary(vrepLib);
+    unloadSimLibrary(simLib);
 }
 
-VREP_DLLEXPORT void* v_repMessage(int message,int* auxiliaryData,void* customData,int* replyData)
+SIM_DLLEXPORT void* simMessage(int message,int* auxiliaryData,void* customData,int* replyData)
 { // This is called quite often. Just watch out for messages/events you want to handle
     return(NULL);
 }
 
-VREP_DLLEXPORT void v_repQhull(void* data)
+SIM_DLLEXPORT void simQhull(void* data)
 {
-    // Collect info from V-REP:
+    // Collect info from CoppeliaSim:
     void** valPtr=(void**)data;
     float* verticesIn=((float*)valPtr[0]);
     int verticesInLength=((int*)valPtr[1])[0];

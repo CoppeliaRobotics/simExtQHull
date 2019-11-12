@@ -1,14 +1,14 @@
 QT -= core
 QT -= gui
 
-TARGET = v_repExtQhull
+TARGET = simExtQhull
 TEMPLATE = lib
 
 DEFINES -= UNICODE
 DEFINES += QT_COMPIL
 CONFIG += shared
 INCLUDEPATH += "../include"
-INCLUDEPATH += "../v_repMath"
+INCLUDEPATH += "../simMath"
 INCLUDEPATH += "qHull"
 
 *-msvc* {
@@ -36,29 +36,29 @@ INCLUDEPATH += "qHull"
 }
 
 win32 {
-    DEFINES += WIN_VREP
+    DEFINES += WIN_SIM
 }
 
 macx {
     INCLUDEPATH += "/usr/local/include"
-    DEFINES += MAC_VREP
+    DEFINES += MAC_SIM
 }
 
 unix:!macx {
-    DEFINES += LIN_VREP
+    DEFINES += LIN_SIM
 }
 
 SOURCES += \
     ../common/scriptFunctionData.cpp \
     ../common/scriptFunctionDataItem.cpp \
-    ../common/v_repLib.cpp \
-    v_repExtQhull.cpp \
-    ../v_repMath/MyMath.cpp \
-    ../v_repMath/3Vector.cpp \
-    ../v_repMath/4Vector.cpp \
-    ../v_repMath/7Vector.cpp \
-    ../v_repMath/3X3Matrix.cpp \
-    ../v_repMath/4X4Matrix.cpp \
+    ../common/simLib.cpp \
+    simExtQhull.cpp \
+    ../simMath/MyMath.cpp \
+    ../simMath/3Vector.cpp \
+    ../simMath/4Vector.cpp \
+    ../simMath/7Vector.cpp \
+    ../simMath/3X3Matrix.cpp \
+    ../simMath/4X4Matrix.cpp \
     qHull/userprintf_rbox.c \
     qHull/userprintf.c \
     qHull/usermem.c \
@@ -80,15 +80,15 @@ SOURCES += \
 HEADERS +=\
     ../include/scriptFunctionData.h \
     ../include/scriptFunctionDataItem.h \
-    ../include/v_repLib.h \
-    v_repExtQhull.h \
-    ../v_repMath/MyMath.h \
-    ../v_repMath/mathDefines.h \
-    ../v_repMath/3Vector.h \
-    ../v_repMath/4Vector.h \
-    ../v_repMath/7Vector.h \
-    ../v_repMath/3X3Matrix.h \
-    ../v_repMath/4X4Matrix.h \
+    ../include/simLib.h \
+    simExtQhull.h \
+    ../simMath/MyMath.h \
+    ../simMath/mathDefines.h \
+    ../simMath/3Vector.h \
+    ../simMath/4Vector.h \
+    ../simMath/7Vector.h \
+    ../simMath/3X3Matrix.h \
+    ../simMath/4X4Matrix.h \
     qHull/user.h \
     qHull/stat.h \
     qHull/random.h \
