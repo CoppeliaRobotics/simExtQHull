@@ -31,18 +31,6 @@ extern "C" {
 
 static LIBRARY simLib;
 
-bool canOutputMsg(int msgType)
-{
-    int plugin_verbosity = sim_verbosity_default;
-    simGetModuleInfo("Qhull",sim_moduleinfo_verbosity,nullptr,&plugin_verbosity);
-    return(plugin_verbosity>=msgType);
-}
-
-void outputMsg(int msgType,const char* msg)
-{
-    if (canOutputMsg(msgType))
-        printf("%s\n",msg);
-}
 bool compute(const float* verticesIn,int verticesInLength,bool generateIndices,std::vector<float>& verticesOut,std::vector<int>& indicesOut)
 {
     coordT* points=new coordT[verticesInLength];
@@ -200,12 +188,12 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
     simLib=loadSimLibrary(temp.c_str());
     if (simLib==NULL)
     {
-        outputMsg(sim_verbosity_errors,"simExtQhull: error: could not find or correctly load the CoppeliaSim library. Cannot start 'Qhull' plugin.");
+        simAddLog("Qhull",sim_verbosity_errors,"could not find or correctly load the CoppeliaSim library. Cannot start the plugin.");
         return(0); 
     }
     if (getSimProcAddresses(simLib)==0)
     {
-        outputMsg(sim_verbosity_errors,"simExtQhull: error: could not find all required functions in the CoppeliaSim library. Cannot start 'Qhull' plugin.");
+        simAddLog("Qhull",sim_verbosity_errors,"could not find all required functions in the CoppeliaSim library. Cannot start the plugin.");
         unloadSimLibrary(simLib);
         return(0);
     }
