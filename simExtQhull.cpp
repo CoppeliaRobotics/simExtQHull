@@ -198,8 +198,6 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
         return(0);
     }
 
-    simRegisterScriptVariable("simQHull","require('simExtQhull')",0);
-
     // Register the new functions:
     simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMAND,"@","Qhull"),strConCat("table vertices[,table indices]=",LUA_COMPUTE_COMMAND,"(table vertices,bool generateIndices)"),LUA_COMPUTE_CALLBACK);
 
