@@ -199,7 +199,7 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
     }
 
     // Register the new functions:
-    simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMAND,"@","Qhull"),strConCat("table vertices[,table indices]=",LUA_COMPUTE_COMMAND,"(table vertices,bool generateIndices)"),LUA_COMPUTE_CALLBACK);
+    simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMAND,"@","Qhull"),strConCat("float[] vertices,int[] indices=",LUA_COMPUTE_COMMAND,"(float[] vertices,bool generateIndices)"),LUA_COMPUTE_CALLBACK);
 
     // Following for backward compatibility:
     simRegisterScriptVariable(LUA_COMPUTE_COMMANDOLD,LUA_COMPUTE_COMMAND,-1);
