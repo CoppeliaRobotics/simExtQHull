@@ -1,4 +1,4 @@
-#include "simExtQhull.h"
+#include "simExtQHull.h"
 #include "simLib.h"
 #include "scriptFunctionData.h"
 #include <map>
@@ -188,22 +188,22 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
     simLib=loadSimLibrary(temp.c_str());
     if (simLib==NULL)
     {
-        printf("simExtQhull: error: could not find or correctly load the CoppeliaSim library. Cannot start the plugin.\n"); // cannot use simAddLog here.
+        printf("simExtQHull: error: could not find or correctly load the CoppeliaSim library. Cannot start the plugin.\n"); // cannot use simAddLog here.
         return(0); 
     }
     if (getSimProcAddresses(simLib)==0)
     {
-        printf("simExtQhull: error: could not find all required functions in the CoppeliaSim library. Cannot start the plugin.\n"); // cannot use simAddLog here.
+        printf("simExtQHull: error: could not find all required functions in the CoppeliaSim library. Cannot start the plugin.\n"); // cannot use simAddLog here.
         unloadSimLibrary(simLib);
         return(0);
     }
 
     // Register the new functions:
-    simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMAND,"@","Qhull"),strConCat("float[] vertices,int[] indices=",LUA_COMPUTE_COMMAND,"(float[] vertices,bool generateIndices)"),LUA_COMPUTE_CALLBACK);
+    simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMAND,"@","QHull"),strConCat("float[] vertices,int[] indices=",LUA_COMPUTE_COMMAND,"(float[] vertices,bool generateIndices)"),LUA_COMPUTE_CALLBACK);
 
     // Following for backward compatibility:
     simRegisterScriptVariable(LUA_COMPUTE_COMMANDOLD,LUA_COMPUTE_COMMAND,-1);
-    simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMANDOLD,"@","Qhull"),strConCat("Please use the ",LUA_COMPUTE_COMMAND," notation instead"),0);
+    simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMANDOLD,"@","QHull"),strConCat("Please use the ",LUA_COMPUTE_COMMAND," notation instead"),0);
 
     return(PLUGIN_VERSION);
 }

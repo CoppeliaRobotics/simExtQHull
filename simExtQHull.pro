@@ -1,7 +1,7 @@
 QT -= core
 QT -= gui
 
-TARGET = simExtQhull
+TARGET = simExtQHull
 TEMPLATE = lib
 
 DEFINES -= UNICODE
@@ -52,7 +52,7 @@ SOURCES += \
     ../common/scriptFunctionData.cpp \
     ../common/scriptFunctionDataItem.cpp \
     ../common/simLib.cpp \
-    simExtQhull.cpp \
+    simExtQHull.cpp \
     ../simMath/MyMath.cpp \
     ../simMath/3Vector.cpp \
     ../simMath/4Vector.cpp \
@@ -82,7 +82,7 @@ HEADERS +=\
     ../include/scriptFunctionData.h \
     ../include/scriptFunctionDataItem.h \
     ../include/simLib.h \
-    simExtQhull.h \
+    simExtQHull.h \
     ../simMath/MyMath.h \
     ../simMath/mathDefines.h \
     ../simMath/3Vector.h \
