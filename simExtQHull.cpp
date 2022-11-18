@@ -142,8 +142,8 @@ void LUA_COMPUTE_CALLBACK(SScriptCallBack* p)
             {
                 std::vector<float> verticesOut(vOut,vOut+vOutL);
                 std::vector<int> indicesOut(iOut,iOut+iOutL);
-                simReleaseBuffer((simChar*)vOut);
-                simReleaseBuffer((simChar*)iOut);
+                simReleaseBuffer((char*)vOut);
+                simReleaseBuffer((char*)iOut);
                 D.pushOutData(CScriptFunctionDataItem(verticesOut));
                 if (generateIndices)
                     D.pushOutData(CScriptFunctionDataItem(indicesOut));
