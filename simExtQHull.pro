@@ -6,6 +6,7 @@ TEMPLATE = lib
 
 DEFINES -= UNICODE
 DEFINES += QT_COMPIL
+DEFINES += SIM_MATH_DOUBLE # math and vector classes
 CONFIG += shared plugin
 INCLUDEPATH += "../include"
 INCLUDEPATH += "../simMath"

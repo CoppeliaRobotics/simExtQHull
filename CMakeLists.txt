@@ -48,5 +48,6 @@ coppeliasim_add_plugin(
     ${COPPELIASIM_COMMON_DIR}/scriptFunctionData.cpp
     ${COPPELIASIM_COMMON_DIR}/scriptFunctionDataItem.cpp
 )
+target_compile_definitions(simExtQHull PRIVATE SIM_MATH_DOUBLE)
 target_include_directories(simExtQHull PRIVATE qHull)
 target_include_directories(simExtQHull PRIVATE ${COPPELIASIM_ROOT_DIR}/programming/simMath)

@@ -31,7 +31,7 @@ extern "C" {
 
 static LIBRARY simLib;
 
-bool compute(const float* verticesIn,int verticesInLength,bool generateIndices,std::vector<float>& verticesOut,std::vector<int>& indicesOut)
+bool compute(const double* verticesIn,int verticesInLength,bool generateIndices,std::vector<double>& verticesOut,std::vector<int>& indicesOut)
 {
     coordT* points=new coordT[verticesInLength];
     for (int i=0;i<verticesInLength;i++)
@@ -52,7 +52,7 @@ bool compute(const float* verticesIn,int verticesInLength,bool generateIndices,s
         {
             if (vertex0==NULL)
                 vertex0=vertex;
-            C3Vector v(float(vertex->point[0]),float(vertex->point[1]),float(vertex->point[2]));
+            C3Vector v(vertex->point[0],vertex->point[1],vertex->point[2]);
             verticesOut.push_back(v(0));
             verticesOut.push_back(v(1));
             verticesOut.push_back(v(2));
@@ -84,7 +84,7 @@ bool compute(const float* verticesIn,int verticesInLength,bool generateIndices,s
             center.clear();
             for (int i=0;i<int(verticesOut.size()/3);i++)
                 center+=C3Vector(&verticesOut[3*i]);
-            center/=float(verticesOut.size()/3);
+            center/=double(verticesOut.size()/3);
             for (int i=0;i<int(indicesOut.size()/3);i++)
             {
                 int ind[3]={indicesOut[3*i+0],indicesOut[3*i+1],indicesOut[3*i+2]};
@@ -116,7 +116,7 @@ bool compute(const float* verticesIn,int verticesInLength,bool generateIndices,s
 
 const int inArgs_COMPUTE[]={
     2,
-    sim_script_arg_float|sim_script_arg_table,0,
+    sim_script_arg_double|sim_script_arg_table,0,
     sim_script_arg_bool,0,
 };
 
@@ -126,21 +126,21 @@ void LUA_COMPUTE_CALLBACK(SScriptCallBack* p)
     if (D.readDataFromStack(p->stackID,inArgs_COMPUTE,inArgs_COMPUTE[0],LUA_COMPUTE_COMMAND))
     {
         std::vector<CScriptFunctionDataItem>* inData=D.getInDataPtr();
-        float* vertices=&inData->at(0).floatData[0];
-        int verticeslength=inData->at(0).floatData.size();
+        double* vertices=&inData->at(0).doubleData[0];
+        int verticeslength=inData->at(0).doubleData.size();
         bool generateIndices=inData->at(1).boolData[0];
         if (verticeslength<12)
             simSetLastError(LUA_COMPUTE_COMMAND,"Not enough points specified.");
         else
         {
-            float* vOut;
+            double* vOut;
             int vOutL;
             int* iOut;
             int iOutL;
             bool result=simGetQHull(vertices,verticeslength,&vOut,&vOutL,&iOut,&iOutL,0,NULL);
             if (result)
             {
-                std::vector<float> verticesOut(vOut,vOut+vOutL);
+                std::vector<double> verticesOut(vOut,vOut+vOutL);
                 std::vector<int> indicesOut(iOut,iOut+iOutL);
                 simReleaseBuffer((char*)vOut);
                 simReleaseBuffer((char*)iOut);
@@ -199,7 +199,7 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
     }
 
     // Register the new functions:
-    simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMAND,"@","QHull"),strConCat("float[] vertices,int[] indices=",LUA_COMPUTE_COMMAND,"(float[] vertices,bool generateIndices)"),LUA_COMPUTE_CALLBACK);
+    simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMAND,"@","QHull"),strConCat("double[] vertices,int[] indices=",LUA_COMPUTE_COMMAND,"(double[] vertices,bool generateIndices)"),LUA_COMPUTE_CALLBACK);
 
     // Following for backward compatibility:
     simRegisterScriptVariable(LUA_COMPUTE_COMMANDOLD,LUA_COMPUTE_COMMAND,-1);
@@ -222,20 +222,20 @@ SIM_DLLEXPORT void simQhull(void* data)
 {
     // Collect info from CoppeliaSim:
     void** valPtr=(void**)data;
-    float* verticesIn=((float*)valPtr[0]);
+    double* verticesIn=((double*)valPtr[0]);
     int verticesInLength=((int*)valPtr[1])[0];
     bool generateIndices=((bool*)valPtr[2])[0];
 
-    std::vector<float> verticesOut;
+    std::vector<double> verticesOut;
     std::vector<int> indicesOut;
     bool result=compute(verticesIn,verticesInLength,generateIndices,verticesOut,indicesOut);
     ((bool*)valPtr[3])[0]=result;
     if (result)
     {
-        float* v=(float*)simCreateBuffer(verticesOut.size()*sizeof(float));
+        double* v=(double*)simCreateBuffer(verticesOut.size()*sizeof(double));
         for (size_t i=0;i<verticesOut.size();i++)
             v[i]=verticesOut[i];
-        ((float**)valPtr[4])[0]=v;
+        ((double**)valPtr[4])[0]=v;
         ((int*)valPtr[5])[0]=verticesOut.size();
         if (generateIndices)
         {
