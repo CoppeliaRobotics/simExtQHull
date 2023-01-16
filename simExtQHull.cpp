@@ -25,7 +25,7 @@ extern "C" {
     #include <unistd.h>
 #endif
 
-#define PLUGIN_VERSION 4 // 4 since 3.4.1
+#define PLUGIN_VERSION 5 // 5 since 4.5
 #define CONCAT(x,y,z) x y z
 #define strConCat(x,y,z)    CONCAT(x,y,z)
 
@@ -38,7 +38,7 @@ bool compute(const double* verticesIn,int verticesInLength,bool generateIndices,
         points[i]=verticesIn[i];
     verticesOut.clear();
     indicesOut.clear();
-    char flags[]="qhull ";
+    char flags[]="qhull QJ";
     int curlong,totlong;     /* memory remaining after qh_memfreeshort */
     FILE *errfile= stderr;    /* error messages from qhull code */
     int exitcode= qh_new_qhull (3,verticesInLength/3,points,0,flags,NULL,errfile);
