@@ -1,9 +1,9 @@
 #include "simExtQHull.h"
-#include "simLib.h"
-#include "scriptFunctionData.h"
+#include <simLib.h>
+#include <scriptFunctionData.h>
 #include <map>
-#include "3Vector.h"
-#include "4Vector.h"
+#include <simMath/3Vector.h>
+#include <simMath/4Vector.h>
 #include <iostream>
 
 extern "C" {
