@@ -1,6 +1,6 @@
 #include "simExtQHull.h"
-#include <simLib.h>
-#include <scriptFunctionData.h>
+#include <simLib/simLib.h>
+#include <simLib/scriptFunctionData.h>
 #include <map>
 #include <simMath/3Vector.h>
 #include <simMath/4Vector.h>
