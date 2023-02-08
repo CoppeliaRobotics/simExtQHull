@@ -49,9 +49,9 @@ unix:!macx {
 }
 
 SOURCES += \
-    ../include/scriptFunctionData.cpp \
-    ../include/scriptFunctionDataItem.cpp \
-    ../include/simLib.cpp \
+    ../include/simLib/scriptFunctionData.cpp \
+    ../include/simLib/scriptFunctionDataItem.cpp \
+    ../include/simLib/simLib.cpp \
     simExtQHull.cpp \
     ../include/simMath/MyMath.cpp \
     ../include/simMath/3Vector.cpp \
@@ -79,9 +79,9 @@ SOURCES += \
     qHull/geom.c \
 
 HEADERS +=\
-    ../include/scriptFunctionData.h \
-    ../include/scriptFunctionDataItem.h \
-    ../include/simLib.h \
+    ../include/simLib/scriptFunctionData.h \
+    ../include/simLib/scriptFunctionDataItem.h \
+    ../include/simLib/simLib.h \
     simExtQHull.h \
     ../include/simMath/MyMath.h \
     ../include/simMath/mathDefines.h \
