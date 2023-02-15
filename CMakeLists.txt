@@ -51,3 +51,4 @@ coppeliasim_add_plugin(
 target_compile_definitions(simExtQHull PRIVATE SIM_MATH_DOUBLE)
 target_include_directories(simExtQHull PRIVATE qHull)
 target_include_directories(simExtQHull PRIVATE ${COPPELIASIM_INCLUDE_DIR}/simMath)
+coppeliasim_add_lua(simQHull.lua)
