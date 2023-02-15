@@ -9,9 +9,9 @@ function simQHull.computeShape(...)
         if t==sim.object_shape_type then
             edges=edges*sim.getObjectInt32Param(h,sim.shapeintparam_edge_visibility)
             if not colorAD then
-                _,colorAD=sim.getShapeColor(h,'',sim.colorcomponent_ambient_diffuse)
-                _,colorSp=sim.getShapeColor(h,'',sim.colorcomponent_specular)
-                _,colorEm=sim.getShapeColor(h,'',sim.colorcomponent_emission)
+                _,colorAD=sim.getShapeColor(h,nil,sim.colorcomponent_ambient_diffuse)
+                _,colorSp=sim.getShapeColor(h,nil,sim.colorcomponent_specular)
+                _,colorEm=sim.getShapeColor(h,nil,sim.colorcomponent_emission)
             end
             local v,i,n=sim.getShapeMesh(h)
             local m=sim.getObjectMatrix(h,-1)
@@ -30,9 +30,9 @@ function simQHull.computeShape(...)
     colorEm=colorEm or {0,0,0}
     local v,i=simQHull.compute(vert,true)
     local h=sim.createMeshShape(1+2*edges,math.pi/8,v,i)
-    sim.setShapeColor(h,'',sim.colorcomponent_ambient_diffuse,colorAD)
-    sim.setShapeColor(h,'',sim.colorcomponent_specular,colorSp)
-    sim.setShapeColor(h,'',sim.colorcomponent_emission,colorEm)
+    sim.setShapeColor(h,nil,sim.colorcomponent_ambient_diffuse,colorAD)
+    sim.setShapeColor(h,nil,sim.colorcomponent_specular,colorSp)
+    sim.setShapeColor(h,nil,sim.colorcomponent_emission,colorEm)
     return h
 end
 
