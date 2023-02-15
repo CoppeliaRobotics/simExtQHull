@@ -4,13 +4,15 @@ function simQHull.computeShape(...)
     local vert={}
     local edges=1
     local colorAD,colorSp,colorEm=nil,nil,nil
-    for _,h in ipairs(arg) do
+    for _,h in ipairs{...} do
         local t=sim.getObjectType(h)
         if t==sim.object_shape_type then
             edges=edges*sim.getObjectInt32Param(h,sim.shapeintparam_edge_visibility)
-            if not colorAD then colorAD=sim.getShapeColor(h,'',sim.colorcomponent_ambient_diffuse) end
-            if not colorSp then colorSp=sim.getShapeColor(h,'',sim.colorcomponent_specular) end
-            if not colorEm then colorEm=sim.getShapeColor(h,'',sim.colorcomponent_emission) end
+            if not colorAD then
+                _,colorAD=sim.getShapeColor(h,'',sim.colorcomponent_ambient_diffuse)
+                _,colorSp=sim.getShapeColor(h,'',sim.colorcomponent_specular)
+                _,colorEm=sim.getShapeColor(h,'',sim.colorcomponent_emission)
+            end
             local v,i,n=sim.getShapeMesh(h)
             local m=sim.getObjectMatrix(h,-1)
             v=sim.multiplyVector(m,v)
