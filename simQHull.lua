@@ -1,10 +1,10 @@
 local simQHull={}
 
-function simQHull.computeShape(...)
+function simQHull.computeShape(handles)
     local vert={}
     local edges=1
     local colorAD,colorSp,colorEm=nil,nil,nil
-    for _,h in ipairs{...} do
+    for _,h in ipairs(handles) do
         local t=sim.getObjectType(h)
         if t==sim.object_shape_type then
             edges=edges*sim.getObjectInt32Param(h,sim.shapeintparam_edge_visibility)
