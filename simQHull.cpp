@@ -1,4 +1,4 @@
-#include "simExtQHull.h"
+#include "simQHull.h"
 #include <simLib/simLib.h>
 #include <simLib/scriptFunctionData.h>
 #include <map>
@@ -25,9 +25,7 @@ extern "C" {
     #include <unistd.h>
 #endif
 
-#define PLUGIN_VERSION 5 // 5 since 4.5
-#define CONCAT(x,y,z) x y z
-#define strConCat(x,y,z)    CONCAT(x,y,z)
+#define PLUGIN_VERSION 6 // 6 since 4.6
 
 static LIBRARY simLib;
 
@@ -111,9 +109,7 @@ bool compute(const double* verticesIn,int verticesInLength,bool generateIndices,
     return ((indicesOut.size()!=0)||(!generateIndices));
 }
 
-#define LUA_COMPUTE_COMMANDOLD "simExtQhull_compute"
-#define LUA_COMPUTE_COMMAND "simQHull.compute"
-
+// simQHull.compute: deprecated, use sim.getQHull instead
 const int inArgs_COMPUTE[]={
     2,
     sim_script_arg_double|sim_script_arg_table,0,
@@ -121,16 +117,16 @@ const int inArgs_COMPUTE[]={
 };
 
 void LUA_COMPUTE_CALLBACK(SScriptCallBack* p)
-{ // deprecated, use simGetQHull instead
+{
     CScriptFunctionData D;
-    if (D.readDataFromStack(p->stackID,inArgs_COMPUTE,inArgs_COMPUTE[0],LUA_COMPUTE_COMMAND))
+    if (D.readDataFromStack(p->stackID,inArgs_COMPUTE,inArgs_COMPUTE[0],nullptr))
     {
         std::vector<CScriptFunctionDataItem>* inData=D.getInDataPtr();
         double* vertices=&inData->at(0).doubleData[0];
         int verticeslength=inData->at(0).doubleData.size();
         bool generateIndices=inData->at(1).boolData[0];
         if (verticeslength<12)
-            simSetLastError(LUA_COMPUTE_COMMAND,"Not enough points specified.");
+            simSetLastError(nullptr,"Not enough points specified.");
         else
         {
             double* vOut;
@@ -157,7 +153,7 @@ void LUA_COMPUTE_CALLBACK(SScriptCallBack* p)
 }
 // --------------------------------------------------------------------------------------
 
-SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
+SIM_DLLEXPORT int simInit(const char* pluginName)
 {
     // 1. Figure out this plugin's directory:
     char curDirAndFile[1024];
@@ -188,37 +184,29 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
     simLib=loadSimLibrary(temp.c_str());
     if (simLib==NULL)
     {
-        printf("simExtQHull: error: could not find or correctly load the CoppeliaSim library. Cannot start the plugin.\n"); // cannot use simAddLog here.
+        simAddLog(pluginName,sim_verbosity_errors,"could not find or correctly load the CoppeliaSim library. Cannot start the plugin.");
         return(0); 
     }
     if (getSimProcAddresses(simLib)==0)
     {
-        printf("simExtQHull: error: could not find all required functions in the CoppeliaSim library. Cannot start the plugin.\n"); // cannot use simAddLog here.
+        simAddLog(pluginName,sim_verbosity_errors,"could not find all required functions in the CoppeliaSim library. Cannot start the plugin.");
         unloadSimLibrary(simLib);
         return(0);
     }
 
-    simRegisterScriptVariable("simQHull","require('simQHull')",0);
-    simRegisterScriptCallbackFunction("simQHull.computeShape@QHull","int resultShapeHandle=simQHull.computeShape(int[] handles)",0);
-
-    // Register the new functions:
-    simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMAND,"@","QHull"),strConCat("double[] vertices,int[] indices=",LUA_COMPUTE_COMMAND,"(double[] vertices,bool generateIndices)"),LUA_COMPUTE_CALLBACK);
-
-    // Following for backward compatibility:
-    simRegisterScriptVariable(LUA_COMPUTE_COMMANDOLD,LUA_COMPUTE_COMMAND,-1);
-    simRegisterScriptCallbackFunction(strConCat(LUA_COMPUTE_COMMANDOLD,"@","QHull"),strConCat("Please use the ",LUA_COMPUTE_COMMAND," notation instead"),0);
+    // Register the new function:
+    simRegisterScriptCallbackFunction("compute",nullptr,LUA_COMPUTE_CALLBACK);
 
     return(PLUGIN_VERSION);
 }
 
-SIM_DLLEXPORT void simEnd()
+SIM_DLLEXPORT void simCleanup()
 {
     unloadSimLibrary(simLib);
 }
 
-SIM_DLLEXPORT void* simMessage(int message,int* auxiliaryData,void* customData,int* replyData)
-{ // This is called quite often. Just watch out for messages/events you want to handle
-    return(NULL);
+SIM_DLLEXPORT void simMsg(int,int*,void*)
+{
 }
 
 SIM_DLLEXPORT void simQhull(void* data)

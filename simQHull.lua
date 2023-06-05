@@ -1,4 +1,4 @@
-local simQHull={}
+local simQHull=loadPlugin('simQHull')
 
 function simQHull.computeShape(handles)
     local vert={}

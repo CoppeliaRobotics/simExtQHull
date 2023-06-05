@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(simExtQHull)
+project(simQHull)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_MACOSX_RPATH 1)
@@ -17,10 +17,10 @@ list(APPEND CMAKE_MODULE_PATH ${COPPELIASIM_INCLUDE_DIR}/cmake)
 find_package(CoppeliaSim 4.5.0.0 REQUIRED)
 
 coppeliasim_add_plugin(
-    simExtQHull
+    simQHull
     LEGACY
     SOURCES
-    simExtQHull.cpp
+    simQHull.cpp
     qHull/userprintf_rbox.c
     qHull/userprintf.c
     qHull/usermem.c
@@ -48,7 +48,8 @@ coppeliasim_add_plugin(
     ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionData.cpp
     ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionDataItem.cpp
 )
-target_compile_definitions(simExtQHull PRIVATE SIM_MATH_DOUBLE)
-target_include_directories(simExtQHull PRIVATE qHull)
-target_include_directories(simExtQHull PRIVATE ${COPPELIASIM_INCLUDE_DIR}/simMath)
+target_compile_definitions(simQHull PRIVATE SIM_MATH_DOUBLE)
+target_include_directories(simQHull PRIVATE qHull)
+target_include_directories(simQHull PRIVATE ${COPPELIASIM_INCLUDE_DIR}/simMath)
 coppeliasim_add_lua(simQHull.lua)
+coppeliasim_add_lua(simQHull-ce.lua)
