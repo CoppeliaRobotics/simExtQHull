@@ -14,11 +14,11 @@ function simQHull.computeShape(handles)
                 _,colorEm=sim.getShapeColor(h,nil,sim.colorcomponent_emission)
             end
             local v,i,n=sim.getShapeMesh(h)
-            local m=sim.getObjectMatrix(h,-1)
+            local m=sim.getObjectMatrix(h)
             v=sim.multiplyVector(m,v)
             for _,x in ipairs(v) do table.insert(vert,x) end
         elseif t==sim.object_dummy_type then
-            local p=sim.getObjectPosition(h,-1)
+            local p=sim.getObjectPosition(h)
             for _,x in ipairs(p) do table.insert(vert,x) end
         else
             sim.addLog(sim.verbosity_warnings,'unsupported object type: '..t)
