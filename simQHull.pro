@@ -53,7 +53,7 @@ SOURCES += \
     ../include/simLib/scriptFunctionData.cpp \
     ../include/simLib/scriptFunctionDataItem.cpp \
     ../include/simLib/simLib.cpp \
-    simQHull.cpp \
+    sourceCode/simQHull.cpp \
     ../include/simMath/mathFuncs.cpp \
     ../include/simMath/3Vector.cpp \
     ../include/simMath/4Vector.cpp \
@@ -61,29 +61,29 @@ SOURCES += \
     ../include/simMath/3X3Matrix.cpp \
     ../include/simMath/4X4Matrix.cpp \
     ../include/simMath/mXnMatrix.cpp \
-    qHull/userprintf_rbox.c \
-    qHull/userprintf.c \
-    qHull/usermem.c \
-    qHull/user.c \
-    qHull/stat.c \
-    qHull/rboxlib.c \
-    qHull/random.c \
-    qHull/qset.c \
-    qHull/poly2.c \
-    qHull/poly.c \
-    qHull/merge.c \
-    qHull/mem.c \
-    qHull/libqhull.c \
-    qHull/io.c \
-    qHull/global.c \
-    qHull/geom2.c \
-    qHull/geom.c \
+    external/qHull/userprintf_rbox.c \
+    external/qHull/userprintf.c \
+    external/qHull/usermem.c \
+    external/qHull/user.c \
+    external/qHull/stat.c \
+    external/qHull/rboxlib.c \
+    external/qHull/random.c \
+    external/qHull/qset.c \
+    external/qHull/poly2.c \
+    external/qHull/poly.c \
+    external/qHull/merge.c \
+    external/qHull/mem.c \
+    external/qHull/libqhull.c \
+    external/qHull/io.c \
+    external/qHull/global.c \
+    external/qHull/geom2.c \
+    external/qHull/geom.c \
 
 HEADERS +=\
     ../include/simLib/scriptFunctionData.h \
     ../include/simLib/scriptFunctionDataItem.h \
     ../include/simLib/simLib.h \
-    simQHull.h \
+    sourceCode/simQHull.h \
     ../include/simMath/mathFuncs.h \
     ../include/simMath/mathDefines.h \
     ../include/simMath/3Vector.h \
@@ -92,17 +92,17 @@ HEADERS +=\
     ../include/simMath/3X3Matrix.h \
     ../include/simMath/4X4Matrix.h \
     ../include/simMath/mXnMatrix.h \
-    qHull/user.h \
-    qHull/stat.h \
-    qHull/random.h \
-    qHull/qset.h \
-    qHull/qhull_a.h \
-    qHull/poly.h \
-    qHull/merge.h \
-    qHull/mem.h \
-    qHull/libqhull.h \
-    qHull/io.h \
-    qHull/geom.h \
+    external/qHull/user.h \
+    external/qHull/stat.h \
+    external/qHull/random.h \
+    external/qHull/qset.h \
+    external/qHull/qhull_a.h \
+    external/qHull/poly.h \
+    external/qHull/merge.h \
+    external/qHull/mem.h \
+    external/qHull/libqhull.h \
+    external/qHull/io.h \
+    external/qHull/geom.h \
 
 unix:!symbian {
     maemo5 {
