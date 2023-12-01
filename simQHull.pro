@@ -9,7 +9,8 @@ DEFINES += QT_COMPIL
 DEFINES += SIM_MATH_DOUBLE # math and vector classes
 CONFIG += shared plugin
 INCLUDEPATH += "../include"
-INCLUDEPATH += "qHull"
+INCLUDEPATH += "external"
+INCLUDEPATH += "external/qHull"
 
 *-msvc* {
     QMAKE_CXXFLAGS += -O2
@@ -50,10 +51,10 @@ unix:!macx {
 }
 
 SOURCES += \
+    sourceCode/simQHull.cpp \
     ../include/simLib/scriptFunctionData.cpp \
     ../include/simLib/scriptFunctionDataItem.cpp \
     ../include/simLib/simLib.cpp \
-    sourceCode/simQHull.cpp \
     ../include/simMath/mathFuncs.cpp \
     ../include/simMath/3Vector.cpp \
     ../include/simMath/4Vector.cpp \
@@ -80,10 +81,10 @@ SOURCES += \
     external/qHull/geom.c \
 
 HEADERS +=\
+    sourceCode/simQHull.h \
     ../include/simLib/scriptFunctionData.h \
     ../include/simLib/scriptFunctionDataItem.h \
     ../include/simLib/simLib.h \
-    sourceCode/simQHull.h \
     ../include/simMath/mathFuncs.h \
     ../include/simMath/mathDefines.h \
     ../include/simMath/3Vector.h \
